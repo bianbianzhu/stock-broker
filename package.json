@@ -1,0 +1,22 @@
+{
+  "name": "stock-broker-mono",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "build": "yarn turbo run build",
+    "lint": "yarn turbo run lint",
+    "format": "yarn turbo run format"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "turbo": "^2.1.2"
+  },
+  "packageManager": "yarn@1.22.22"
+}
