@@ -493,17 +493,152 @@ export type CashFlowStatementResponse = z.infer<
  * --------- /prices/snapshot ---------
  * ----------------------------------------------------
  */
-export interface Snapshot {
-  price: number;
-  ticker: string;
-  day_change: number;
-  day_change_percent: number;
-  time: string;
-  time_nanoseconds: number;
-}
 
-export interface SnapshotResponse {
-  snapshot: Snapshot;
-}
+const SnapshotSchema = z.object({
+  price: z.number().describe("The current price of the stock in the market"),
+  ticker: z
+    .string()
+    .describe(
+      "A unique series of letters or characters assigned to publicly traded stocks"
+    ),
+  day_change: z
+    .number()
+    .describe(
+      "The change in price of the stock since the previous trading day"
+    ),
+  day_change_percent: z
+    .number()
+    .describe(
+      "The percentage change in price of the stock since the previous trading day"
+    ),
+  time: z
+    .string()
+    .describe("The time at which the snapshot of the stock price was taken"),
+  time_nanoseconds: z
+    .number()
+    .describe(
+      "The time at which the snapshot of the stock price was taken in nanoseconds"
+    ),
+});
 
-/* ---------------------------------------------------- */
+export const SnapshotResponseSchema = z.object({
+  snapshot: SnapshotSchema,
+});
+
+export type SnapshotResponse = z.infer<typeof SnapshotResponseSchema>;
+
+/**
+ * ----------------------------------------------------
+ * --------- Alpha Vantage Stock ---------
+ * -------------/query TIME_SERIES_DAILY--------------------------
+ */
+
+export const TimeSeriesDailySchema = z.object({
+  "Meta Data": z
+    .object({
+      "1. Information": z
+        .string()
+        .describe(
+          "The information about the data. Example: Daily Prices (open, high, low, close) and Volumes"
+        ),
+      "2. Symbol": z.string().describe("The stock symbol. Example: IBM"),
+      "3. Last Refreshed": z.string().describe("The last refreshed date"),
+      "4. Output Size": z
+        .enum(["Compact", "Full"])
+        .describe(
+          "The output size of the data. Compact returns only the latest 100 data points; Full returns the full-length time series of 20+ years of historical data"
+        ),
+      "5. Time Zone": z
+        .string()
+        .describe("The time zone of the data. Example: US/Eastern"),
+    })
+    .describe("The metadata of the time series data"),
+  "Time Series (Daily)": z.record(
+    z.string().date().describe("The date of the data point"),
+    z.object({
+      "1. open": z
+        .string()
+        .describe("The opening price of the stock on that day"),
+      "2. high": z
+        .string()
+        .describe("The highest price of the stock on that day"),
+      "3. low": z
+        .string()
+        .describe("The lowest price of the stock on that day"),
+      "4. close": z
+        .string()
+        .describe("The closing price of the stock on that day"),
+      "5. volume": z.string().describe("The volume of the stock on that day"),
+    })
+  ),
+});
+
+// In Zod, z.record() creates a schema for an object with dynamic keys. It allows you to specify the types of both the keys and the values in the object, offering flexibility when you don’t know the exact key names ahead of time but still need to validate their types.
+
+// z.record(keySchema, valueSchema)
+
+// •	keySchema (optional): The type of the object keys (defaults to z.string() if not provided).
+// •	valueSchema: The type of the values associated with each key.
+
+export type TimeSeriesDailyResponse = z.infer<typeof TimeSeriesDailySchema>;
+
+/**
+ * ----------------------------------------------------
+ * --------- Alpha Vantage Stock ---------
+ * -------------/query TIME_SERIES_INTRADAY--------------------------
+ */
+
+const IntervalSchema = z
+  .enum(["1min", "5min", "15min", "30min", "60min"])
+  .describe(
+    "The time interval between two consecutive data points. Example: 5min"
+  );
+
+export const TimeSeriesIntradaySchema = (
+  interval: z.infer<typeof IntervalSchema>
+) =>
+  z.object({
+    "Meta Data": z
+      .object({
+        "1. Information": z
+          .string()
+          .describe("Intraday (1min) open, high, low, close prices and volume"),
+        "2. Symbol": z.string().describe("The stock symbol. Example: IBM"),
+        "3. Last Refreshed": z.string().describe("The last refreshed date"),
+        "4. Interval": IntervalSchema,
+        "5. Output Size": z
+          .enum(["Compact", "Full"])
+          .describe(
+            "The output size of the data. Compact returns only the latest 100 data points in the intraday time series; Full returns trailing 30 days of the most recent intraday data"
+          ),
+        "6. Time Zone": z
+          .string()
+          .describe("The time zone of the data. Example: US/Eastern"),
+      })
+      .describe("The metadata of the time series data"),
+    [`Time Series (${interval})`]: z.record(
+      z
+        .string()
+        .regex(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/, {
+          message: "Datetime must be in YYYY-MM-DD HH:mm:ss format",
+        })
+        .describe(
+          "The date time of the data point in the format YYYY-MM-DD HH:mm:ss. Example: 2024-09-27 19:59:00 "
+        ),
+      z.object({
+        "1. open": z
+          .string()
+          .describe("The opening price of the stock on that day"),
+        "2. high": z
+          .string()
+          .describe("The highest price of the stock on that day"),
+        "3. low": z
+          .string()
+          .describe("The lowest price of the stock on that day"),
+        "4. close": z
+          .string()
+          .describe("The closing price of the stock on that day"),
+        "5. volume": z.string().describe("The volume of the stock on that day"),
+      })
+    ),
+  });

@@ -57,7 +57,7 @@ export function createZodFetcher(): ZodFetcher {
   };
 }
 
-// The return type of this function is `Result<never, string>`. This makes sure that success is always false and the error is always a string.
+// The return type of this function is `Result<never, string>`. This makes sure that success is always false and the error is always a string. (Result<false, string> gives TS error)
 export function handleError(err: unknown): Result<never, string> {
   if (err instanceof HttpsError) {
     return { success: false, error: `HTTP Error: ${err.response.statusText}` };

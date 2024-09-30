@@ -1,1 +1,4 @@
 GET https://api.financialdatasets.aifinancials/income-statements?ticker=AAPL&period=annual&limit=5
+
+###
+GET https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=1min&apikey=KFM673SWPUX090YW
