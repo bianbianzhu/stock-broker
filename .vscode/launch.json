@@ -14,8 +14,8 @@
       "console": "integratedTerminal",
       "args": ["${relativeFile}"],
       "runtimeExecutable": "tsx",
-      "runtimeArgs": ["--experimental-wasm-modules", "-r", "dotenv/config"],
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+      "runtimeArgs": ["--experimental-wasm-modules", "-r", "dotenv/config"]
+      // "outFiles": ["${workspaceFolder}/dist/**/*.js"] // comment out to enable breakpoints ??? but why ???
     }
   ]
 }

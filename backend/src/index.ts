@@ -7,22 +7,24 @@ import { BaseMessage, HumanMessage } from "@langchain/core/messages";
 import { RunnableConfig } from "@langchain/core/runnables";
 import { logSnapshot } from "./utils/logging.js";
 
-enum GraphNode {
-  callModel = "call_model",
-  tools = "tools",
+export enum GraphNode {
+  CallModel = "call_model",
+  Tools = "tools",
+  ExecutePurchase = "execute_purchase",
+  PreparePurchaseDetails = "prepare_purchase_details",
 }
 
 const stateGraph = new StateGraph(graphAnnotation);
 
 const workflow = stateGraph
-  .addNode(GraphNode.callModel, callModel)
-  .addNode(GraphNode.tools, toolNode)
-  .addEdge(START, GraphNode.callModel)
-  .addConditionalEdges(GraphNode.callModel, toolsCondition, [
-    GraphNode.tools,
+  .addNode(GraphNode.CallModel, callModel)
+  .addNode(GraphNode.Tools, toolNode)
+  .addEdge(START, GraphNode.CallModel)
+  .addConditionalEdges(GraphNode.CallModel, toolsCondition, [
+    GraphNode.Tools,
     END,
   ])
-  .addEdge(GraphNode.tools, GraphNode.callModel);
+  .addEdge(GraphNode.Tools, GraphNode.CallModel);
 
 const checkpointer = new MemorySaver();
 
