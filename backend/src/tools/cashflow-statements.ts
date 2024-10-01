@@ -1,6 +1,6 @@
 import { tool } from "@langchain/core/tools";
-import { getFinancialDataset } from "utils/financial-api-service.js";
-import { CashFlowStatementResponseSchema } from "utils/schema.js";
+import { getFinancialDataset } from "../utils/financial-api-service.js";
+import { CashFlowStatementResponseSchema } from "../utils/schema.js";
 import { z } from "zod";
 
 const schema = z.object({

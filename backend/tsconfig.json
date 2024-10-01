@@ -7,7 +7,7 @@
     "module": "nodenext",
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./src",
+    // "baseUrl": "./src", // Commented out as it affects the import paths and langgraph studio failed to pick up the right states
     "declaration": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
