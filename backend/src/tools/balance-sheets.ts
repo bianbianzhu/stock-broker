@@ -38,7 +38,7 @@ const balanceSheetsTool = tool(
     return JSON.stringify(response);
   },
   {
-    name: "balance_sheets",
+    name: "fetch_balance_sheets",
     description:
       "This tool is used to fetch balance sheets for a given company, providing a snapshot of its financial position at specific points in time. The output includes detailed information on assets (total, current, non-current), liabilities (total, current, non-current), and shareholders' equity. Specific data points include cash and equivalents, inventory, investments, property/plant/equipment, goodwill, debt, payables, retained earnings, and more. The result is a JSON stringified object containing an array of balance sheets.",
     schema,

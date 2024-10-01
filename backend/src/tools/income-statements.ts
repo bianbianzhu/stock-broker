@@ -38,7 +38,7 @@ const incomeStatementsTool = tool(
     return JSON.stringify(response);
   },
   {
-    name: "income_statements",
+    name: "fetch_income_statements",
     description:
       "This tool is called when retrieving income statements for a specified company, showing detailed financial performance over a chosen period of time. The output includes key metrics such as revenue, expenses, profits, and per-share data. Specifically, it provides: ticker, calendar date, report period type, revenue, cost of revenue, gross profit, operating expenses, income figures (operating, net, EBIT), tax expenses, earnings per share (basic and diluted), dividends per share, and share count information.",
     schema,

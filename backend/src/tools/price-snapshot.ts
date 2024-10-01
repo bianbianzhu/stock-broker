@@ -24,7 +24,7 @@ const pricesSnapshotTool = tool(
     return JSON.stringify(response);
   },
   {
-    name: "prices_snapshot",
+    name: "fetch_prices_snapshot",
     description:
       "This tool is called to retrieve the current stock price and related market data for a given company. The snapshot includes the current price, ticker symbol, day's change in price and percentage, timestamp of the data, and a nanosecond-precision timestamp. This tool should ALWAYS be called before purchasing a stock to ensure the most up-to-date price is used.",
     schema,

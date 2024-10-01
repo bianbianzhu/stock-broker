@@ -594,6 +594,11 @@ const IntervalSchema = z
     "The time interval between two consecutive data points. Example: 5min"
   );
 
+/**
+ * This function dynamically creates a schema for the Time Series Intraday data based on the interval provided. Example: TimeSeriesIntradaySchema("5min") -> `Time Series (5min)`
+ * @param interval Enum value: "1min", "5min", "15min", "30min", "60min"
+ * @returns a Zod schema for the Time Series Intraday data
+ */
 export const TimeSeriesIntradaySchema = (
   interval: z.infer<typeof IntervalSchema>
 ) =>

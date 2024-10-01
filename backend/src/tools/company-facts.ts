@@ -24,7 +24,7 @@ const companyFactsTool = tool(
     return JSON.stringify(response);
   },
   {
-    name: "company_facts",
+    name: "fetch_company_facts",
     description:
       "Provides key facts and information about a specified company. The result is a JSON stringified object containing details such as: ticker symbol, company name, CIK number, market capitalization, number of employees, SIC code and description, website URL, listing date, and whether the company is currently active.",
     schema,

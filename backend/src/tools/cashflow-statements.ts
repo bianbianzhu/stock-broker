@@ -38,7 +38,7 @@ const cashflowStatementsTool = tool(
     return JSON.stringify(response);
   },
   {
-    name: "cashflow_statements",
+    name: "fetch_cashflow_statements",
     description:
       "This tool is called when obtaining cash flow statements for a specified company, detailing the inflows and outflows of cash from operating, investing, and financing activities. The result is a JSON stringified object containing an array of cash flow statements. Each statement includes: ticker, date, report period, net cash flows from operations/investing/financing, depreciation and amortization, share-based compensation, capital expenditure, business and investment acquisitions/disposals, debt and equity issuances/repayments, dividends, change in cash and equivalents, and effect of exchange rate changes.",
     schema,
