@@ -1,8 +1,8 @@
 import { END, MemorySaver, START, StateGraph } from "@langchain/langgraph";
 import { toolsCondition } from "@langchain/langgraph/prebuilt";
 import { graphAnnotation } from "./graph-state.js"; // if using `graph-state.ts`, replace with `./graph-state.ts`, the studio failed to get the correct state.
-import callModel from "./nodes/callModel.js";
-import toolNode from "./nodes/toolNode.js";
+import callModel from "./nodes/call-model.js";
+import toolNode from "./nodes/tool-node.js";
 import { BaseMessage, HumanMessage } from "@langchain/core/messages";
 import { RunnableConfig } from "@langchain/core/runnables";
 import { logSnapshot } from "./utils/logging.js";
