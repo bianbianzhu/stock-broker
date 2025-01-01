@@ -8,6 +8,6 @@ type StockPurchaseDetails = {
 
 export const graphAnnotation = Annotation.Root({
   ...MessagesAnnotation.spec,
-  requestedStockPurchaseDetails: Annotation<StockPurchaseDetails>,
+  requestedStockPurchaseDetails: Annotation<StockPurchaseDetails | undefined>,
   purchaseConfirmed: Annotation<boolean | undefined>,
 });

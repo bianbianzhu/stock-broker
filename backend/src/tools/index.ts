@@ -3,6 +3,7 @@ import cashflowStatementsTool from "./cashflow-statements.js";
 import companyFactsTool from "./company-facts.js";
 import incomeStatementsTool from "./income-statements.js";
 import priceIntradayTool from "./price-intraday.js";
+import priceSnapshotFromIntradayTool from "./price-snapshot-from-intraday.js";
 import pricesSnapshotTool from "./price-snapshot.js";
 import purchaseStockTool from "./purchase-stock.js";
 import webSearchTool from "./web-search.js";
@@ -13,9 +14,10 @@ const ALL_TOOLS_LIST = [
   companyFactsTool,
   incomeStatementsTool,
   priceIntradayTool,
-  pricesSnapshotTool,
+  // pricesSnapshotTool,
   purchaseStockTool,
   webSearchTool,
+  priceSnapshotFromIntradayTool,
 ];
 
 export default ALL_TOOLS_LIST;

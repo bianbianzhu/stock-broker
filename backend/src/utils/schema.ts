@@ -588,7 +588,7 @@ export type TimeSeriesDailyResponse = z.infer<typeof TimeSeriesDailySchema>;
  * -------------/query TIME_SERIES_INTRADAY--------------------------
  */
 
-const IntervalSchema = z
+export const IntervalSchema = z
   .enum(["1min", "5min", "15min", "30min", "60min"])
   .describe(
     "The time interval between two consecutive data points. Example: 5min"
@@ -603,7 +603,7 @@ export const TimeSeriesIntradaySchema = (
   interval: z.infer<typeof IntervalSchema>
 ) =>
   z.object({
-    "Meta Data": z
+    ["Meta Data"]: z
       .object({
         "1. Information": z
           .string()

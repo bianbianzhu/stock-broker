@@ -1,7 +1,7 @@
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 
-const schema = z.object({
+export const purchaseStockToolSchema = z.object({
   ticker: z
     .string()
     .optional()
@@ -47,7 +47,7 @@ const purchaseStockTool = tool(
     name: "purchase_stock",
     description:
       "This tool should be called when a user wants to purchase a stock",
-    schema,
+    schema: purchaseStockToolSchema,
   }
 );
 

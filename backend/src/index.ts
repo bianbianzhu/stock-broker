@@ -6,6 +6,9 @@ import toolNode from "./nodes/tool-node.js";
 import { BaseMessage, HumanMessage } from "@langchain/core/messages";
 import { RunnableConfig } from "@langchain/core/runnables";
 import { logSnapshot } from "./utils/logging.js";
+import shouldContinue from "./conditions/should-continue.js";
+import executePurchase from "./nodes/execute-purchase.js";
+import preparePurchaseDetails from "./nodes/prepare-purchase-details.js";
 
 export enum GraphNode {
   CallModel = "call_model",
@@ -19,34 +22,44 @@ const stateGraph = new StateGraph(graphAnnotation);
 const workflow = stateGraph
   .addNode(GraphNode.CallModel, callModel)
   .addNode(GraphNode.Tools, toolNode)
+  .addNode(GraphNode.ExecutePurchase, executePurchase)
+  .addNode(GraphNode.PreparePurchaseDetails, preparePurchaseDetails)
   .addEdge(START, GraphNode.CallModel)
-  .addConditionalEdges(GraphNode.CallModel, toolsCondition, [
+  .addConditionalEdges(GraphNode.CallModel, shouldContinue, [
     GraphNode.Tools,
     END,
+    GraphNode.ExecutePurchase,
+    GraphNode.PreparePurchaseDetails,
   ])
+  .addEdge(GraphNode.PreparePurchaseDetails, GraphNode.ExecutePurchase)
+  .addEdge(GraphNode.ExecutePurchase, END)
   .addEdge(GraphNode.Tools, GraphNode.CallModel);
 
-const checkpointer = new MemorySaver();
+// const checkpointer = new MemorySaver();
 
 export const graph = workflow.compile({
-  checkpointer,
+  // checkpointer,
 });
 
-const config: RunnableConfig = {
-  configurable: {
-    thread_id: "20241001",
-  },
-};
+async function main() {
+  const config: RunnableConfig = {
+    configurable: {
+      thread_id: "20241001",
+    },
+  };
 
-const response = await graph.invoke(
-  {
-    messages: [new HumanMessage("Hi, get the company facts of Tesla")],
-  },
-  config
-);
+  const response = await graph.invoke(
+    {
+      messages: [new HumanMessage("Hi, get the company facts of Tesla")],
+    },
+    config
+  );
 
-const history = graph.getStateHistory(config);
+  const history = graph.getStateHistory(config);
 
-for await (const snapshot of history) {
-  logSnapshot(snapshot);
+  for await (const snapshot of history) {
+    logSnapshot(snapshot);
+  }
 }
+
+// main();

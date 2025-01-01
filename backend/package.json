@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "yarn tsc --project tsconfig.json --outDir dist",
-    "start": "tsx --experimental-wasm-modules -r dotenv/config src/app.ts",
+    "start": "tsx --experimental-wasm-modules -r dotenv/config src/index.ts",
     "format": "prettier --write \"**/*.ts\"",
     "format:check": "prettier --check \"**/*.ts\""
   },
